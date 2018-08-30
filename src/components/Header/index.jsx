@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import './App.styl';
+import './Header.styl';
 import { bind } from 'decko';
 import cn from 'classnames';
 
-class App extends Component {
+class Header extends Component {
 
     constructor(props) {
         super(props);
@@ -23,7 +23,6 @@ class App extends Component {
 
     @bind
     onOpenTypeField() {
-        console.log(`click`);
 
         this.setState({
             typeFieldOpen: !this.state.typeFieldOpen
@@ -32,7 +31,6 @@ class App extends Component {
 
     @bind
     onOpenCurrencyField() {
-        console.log(`click`);
 
         this.setState({
             currencyFieldOpen: !this.state.currencyFieldOpen
@@ -100,7 +98,6 @@ class App extends Component {
     addTransaction() {
         const {amount, description, checkedCurrency, checkedTransaction} = this.state;
 
-        console.log(description, amount);
         if (!amount) {
             this.setState({
                 inValidAmount: true
@@ -115,18 +112,19 @@ class App extends Component {
             return
         }
 
-        console.log(
+        this.props.addTransaction({
             amount,
             description,
             checkedCurrency,
-            checkedTransaction)
+            checkedTransaction
+        })
+
         // this.setState({
         //     currencyFieldOpen: !this.state.currencyFieldOpen
         // })
     }
 
     render() {
-
         const incomeClassName = cn({
             'fields__type-income': true,
             "open":this.state.typeFieldOpen
@@ -150,46 +148,43 @@ class App extends Component {
         const { checkedTransaction, disabledTransaction,checkedCurrency, disabledCurrency } = this.state;
 
         return (
-            <div className='App'>
-                <div className="header">
-                    <div className="title">Home Finance</div>
-                    <div className="fields">
-                        <div className="fields__type field">
-                            <div className="fields__type-expanse">{checkedTransaction}</div>
-                            <div
-                                className={incomeClassName}
-                                onClick={this.onChangeTransactionType}>{disabledTransaction}</div>
-                            <div className="fields__type-toggle" onClick={this.onOpenTypeField}/>
-                        </div>
-
-                        <div className="fields__currency field">
-                            <div className="fields__currency-usd">{checkedCurrency}</div>
-                            <div
-                                className={euroClassName}
-                                onClick={this.onChangeCurrency}>{disabledCurrency}</div>
-                            <div className="fields__type-toggle" onClick={this.onOpenCurrencyField}/>
-                        </div>
-
-                        <input
-                            className={amountCLassName}
-                            type="number"
-                            min="0"
-                            step=""
-                            value={this.state.amount}
-                            onChange={this.onChangeAmount}/>
-                        <input
-                            className={descriptionClassName}
-                            type="text"
-                            placeholder="DECSRIPTION"
-                            value={this.state.description}
-                            onChange={this.onChangeDescription}/>
-                        <button className="fields__add field" onClick={this.addTransaction}>Add</button>
+            <div className="header">
+                <div className="title">Home Finance</div>
+                <div className="fields">
+                    <div className="fields__type field">
+                        <div className="fields__type-expanse">{checkedTransaction}</div>
+                        <div
+                            className={incomeClassName}
+                            onClick={this.onChangeTransactionType}>{disabledTransaction}</div>
+                        <div className="fields__type-toggle" onClick={this.onOpenTypeField}/>
                     </div>
+
+                    <div className="fields__currency field">
+                        <div className="fields__currency-usd">{checkedCurrency}</div>
+                        <div
+                            className={euroClassName}
+                            onClick={this.onChangeCurrency}>{disabledCurrency}</div>
+                        <div className="fields__type-toggle" onClick={this.onOpenCurrencyField}/>
+                    </div>
+
+                    <input
+                        className={amountCLassName}
+                        type="number"
+                        min="0"
+                        step=""
+                        value={this.state.amount}
+                        onChange={this.onChangeAmount}/>
+                    <input
+                        className={descriptionClassName}
+                        type="text"
+                        placeholder="DECSRIPTION"
+                        value={this.state.description}
+                        onChange={this.onChangeDescription}/>
+                    <button className="fields__add field" onClick={this.addTransaction}>Add</button>
                 </div>
-                <div className="main"></div>
             </div>
         )
     }
 }
 
-export default App;
+export default Header;

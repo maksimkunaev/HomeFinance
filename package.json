@@ -36,7 +36,9 @@
     "debounce": "^1.1.0",
     "decko": "^1.2.0",
     "postcss-loader": "^2.1.5",
-    "react": "^16.3.2",
-    "react-dom": "^16.3.2"
+    "react": "^16.4.2",
+    "react-dom": "^16.3.2",
+    "react-redux": "^5.0.7",
+    "redux": "^4.0.0"
   }
 }
