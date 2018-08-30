@@ -1,0 +1,83 @@
+body,
+html
+    width 100%
+    height 100%
+    padding 0
+    margin 0
+.App
+    width 1100px
+    margin 0 auto
+
+.title
+    height 60px
+    font-size 30px
+    padding 5px 10px
+    box-sizing border-box
+
+.fields
+    display -webkit-flex
+    display -moz-flex
+    display -ms-flex
+    display -o-flex
+    display flex
+    justify-content space-between
+
+.field,
+.open
+    border 1px solid #a9a9a9
+    border-radius 6px
+    height 25px
+    font-size 17px
+    padding 0 8px
+    box-sizing border-box
+    outline none
+
+.fields__type
+    width 130px
+    position relative
+
+.fields__type-toggle
+    width 18px
+    height 18px
+    border 1px solid #a9a9a9
+    position absolute
+    right 4px
+    top 1px
+    border-radius 4px
+    &::after
+        content ""
+        border 8px solid transparent
+        border-top 10px solid
+        display block
+        top 4px
+        left 1px
+        position absolute
+
+.fields__type-income,
+.fields__currency-euro
+    display none
+
+.fields__currency
+    width 60px
+    position relative
+
+.fields__amount
+    width 200px
+
+.fields__description
+    width 530px
+
+.fields__add
+    width 80px
+
+.open
+    display block
+    position absolute
+    right 0
+    left 0
+    border-top none
+    bottom -24px
+    border-radius 0 0 6px 6px
+
+.invalid
+    border 1px solid red
