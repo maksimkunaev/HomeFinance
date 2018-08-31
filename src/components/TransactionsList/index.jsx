@@ -96,16 +96,47 @@ class TransactionsList extends Component {
         };
     }
 
+    @bind
+    renderTopBlock() {
 
-    render() {
-        const { checkedTransaction,displayCurrency,disabledCurrency, currencyFieldOpen, exchangeRates} = this.state;
-
-        const {transactions} = this.props;
+        const { displayCurrency, disabledCurrency, exchangeRates, currencyFieldOpen } = this.state;
 
         const euroClassName = cn({
             'displayAmounts-currency': true,
             "open": currencyFieldOpen
         })
+
+        const currencySymbol = {
+            EURO: "€",
+            USD: "$"
+        }
+
+        return <div className="displayAmounts">
+            <div className="displayAmounts-desc">Display amounts in</div>
+
+            <div className="displayAmounts__currency field" onClick={this.onOpenCurrencyField}>
+                <div className="fields__currency-USD">{currencySymbol[displayCurrency]}</div>
+                <div
+                    className={euroClassName}
+                    onClick={this.onChangeCurrency}>{currencySymbol[disabledCurrency]}</div>
+                <div className="fields__type-toggle" />
+            </div>
+
+            <div className="displayAmounts-to">{currencySymbol.EURO} <span className="arrow">→</span>{currencySymbol.USD}</div>
+            <input
+                className="displayAmounts-exchange"
+                value={exchangeRates}
+                min="0"
+                step=""
+                onChange={this.onChangeRates}/>
+        </div>
+    }
+
+
+    render() {
+        const { displayCurrency,disabledCurrency, currencyFieldOpen, exchangeRates} = this.state;
+
+        const {transactions} = this.props;
 
         const currencySymbol = {
             EURO: "€",
@@ -118,27 +149,13 @@ class TransactionsList extends Component {
             "positive": positive
         })
 
+        const topBlock = this.renderTopBlock();
+
         return (
             <div className='transactions'>
-                <div className="displayAmounts">
-                    <div className="displayAmounts-desc">Display amounts in</div>
+                {transactions.length ? topBlock : null}
+                {!transactions.length && <div className='transactions__addSome'>Add Some Financial Records</div>}
 
-                    <div className="displayAmounts__currency field" onClick={this.onOpenCurrencyField}>
-                        <div className="fields__currency-USD">{currencySymbol[displayCurrency]}</div>
-                        <div
-                            className={euroClassName}
-                            onClick={this.onChangeCurrency}>{currencySymbol[disabledCurrency]}</div>
-                        <div className="fields__type-toggle" />
-                    </div>
-
-                    <div className="displayAmounts-to">{currencySymbol.EURO} <span className="arrow">→</span>{currencySymbol.USD}</div>
-                    <input
-                        className="displayAmounts-exchange"
-                        value={exchangeRates}
-                        min="0"
-                        step=""
-                        onChange={this.onChangeRates}/>
-                </div>
                 <div className="transactions__list">
                     {transactions.map(({
                         amount,
@@ -185,10 +202,9 @@ class TransactionsList extends Component {
                         </div>
                     })}
                 </div>
-                <div className="block__balance">
-                    <div className="block__balance-text">Balance</div>
-                    <div className={summaClassName}>{total}</div>
-                </div>
+
+                {transactions.length }
+
             </div>
         )
     }
