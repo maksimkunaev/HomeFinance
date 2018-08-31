@@ -1,12 +1,11 @@
 {
-  "name": "shop24",
+  "name": "HomeFinance",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
     "build": "webpack --mode production",
     "dev": "webpack-dev-server --mode development --progress",
-    "build-dev": "webpack --mode development --progress && node server.js",
     "start": "node server"
   },
   "author": "Maxim Kunaev",
