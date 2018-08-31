@@ -14,7 +14,7 @@ class Header extends Component {
             inValidDescription: false,
             amount: "",
             description: "",
-            checkedTransaction: "expanse",
+            checkedTransaction: "expense",
             disabledTransaction: "income",
             checkedCurrency: "$",
             disabledCurrency: "€"
@@ -60,15 +60,15 @@ class Header extends Component {
     onChangeTransactionType(e) {
         const { checkedTransaction } = this.state;
 
-        if (checkedTransaction === "expanse") {
+        if (checkedTransaction === "expense") {
             this.setState({
                 checkedTransaction: "income",
-                disabledTransaction: "expanse",
+                disabledTransaction: "expense",
                 typeFieldOpen: false
             })
         } else {
             this.setState({
-                checkedTransaction: "expanse",
+                checkedTransaction: "expense",
                 disabledTransaction: "income",
                 typeFieldOpen: false
             })
@@ -112,11 +112,23 @@ class Header extends Component {
             return
         }
 
+        let amountInEuro, amountInUSD;
+
+        if (checkedTransaction === "$") {
+            amountInUSD = amount;
+            amountInEuro = amount * 1.114;
+        } else {
+            amountInEuro = amount;
+            amountInUSD = amount / 1.114;
+        }
+
         this.props.addTransaction({
             amount,
             description,
             checkedCurrency,
-            checkedTransaction
+            checkedTransaction,
+            amountInEuro,
+            amountInUSD
         })
 
         // this.setState({
@@ -151,20 +163,20 @@ class Header extends Component {
             <div className="header">
                 <div className="title">Home Finance</div>
                 <div className="fields">
-                    <div className="fields__type field">
-                        <div className="fields__type-expanse">{checkedTransaction}</div>
+                    <div className="fields__type field" onClick={this.onOpenTypeField}>
+                        <div className="fields__type-expense">{checkedTransaction}</div>
                         <div
                             className={incomeClassName}
                             onClick={this.onChangeTransactionType}>{disabledTransaction}</div>
-                        <div className="fields__type-toggle" onClick={this.onOpenTypeField}/>
+                        <div className="fields__type-toggle" />
                     </div>
 
-                    <div className="fields__currency field">
+                    <div className="fields__currency field" onClick={this.onOpenCurrencyField}>
                         <div className="fields__currency-usd">{checkedCurrency}</div>
                         <div
                             className={euroClassName}
                             onClick={this.onChangeCurrency}>{disabledCurrency}</div>
-                        <div className="fields__type-toggle" onClick={this.onOpenCurrencyField}/>
+                        <div className="fields__type-toggle" />
                     </div>
 
                     <input

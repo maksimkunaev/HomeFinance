@@ -4,22 +4,18 @@
     height 60px
     font-size 30px
     padding 5px 10px
-    box-sizing border-box
 
 .fields
-    display -webkit-flex
-    display -moz-flex
-    display -ms-flex
-    display -o-flex
     display flex
     justify-content space-between
+    margin-bottom 75px
+    font-size 20px
 
 .field,
 .open
     border 1px solid #a9a9a9
     border-radius 6px
-    height 25px
-    font-size 17px
+    height 35px
     padding 0 8px
     box-sizing border-box
     outline none
@@ -27,21 +23,23 @@
 .fields__type
     width 130px
     position relative
+    text-transform capitalize
+    line-height 27px
 
 .fields__type-toggle
-    width 18px
-    height 18px
+    width 25px
+    height 25px
     border 1px solid #a9a9a9
     position absolute
-    right 4px
-    top 1px
+    right 3px
+    top 3px
     border-radius 4px
     &::after
         content ""
-        border 8px solid transparent
-        border-top 10px solid
+        border 10px solid transparent
+        border-top 14px solid
         display block
-        top 4px
+        top 5px
         left 1px
         position absolute
 
@@ -52,15 +50,24 @@
 .fields__currency
     width 60px
     position relative
+    position relative
+    line-height 30px
 
 .fields__amount
     width 200px
+    font-size 20px
+    text-align right
+
 
 .fields__description
     width 530px
+    font-size 20px
+
 
 .fields__add
     width 80px
+    background transparent
+    font-size 17px
 
 .open
     display block
@@ -68,8 +75,9 @@
     right 0
     left 0
     border-top none
-    bottom -24px
+    bottom -33px
     border-radius 0 0 6px 6px
+    padding-top 3px
 
 .invalid
     border 1px solid red

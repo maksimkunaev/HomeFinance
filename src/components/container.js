@@ -14,7 +14,9 @@ const mapDispatchToProps = dispatch => ({
             amount: transaction.amount,
             description: transaction.description,
             date: Date.now(),
-            id: Date.now()
+            id: Date.now(),
+            amountInUSD: transaction.amountInUSD,
+            amountInEuro: transaction.amountInEuro
         })
     },
     removeTransaction: id => {
