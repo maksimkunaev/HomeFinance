@@ -16,8 +16,8 @@ class Header extends Component {
             description: "",
             checkedTransaction: "expense",
             disabledTransaction: "income",
-            checkedCurrency: "$",
-            disabledCurrency: "€"
+            checkedCurrency: "USD",
+            disabledCurrency: "EURO"
         }
     }
 
@@ -79,16 +79,16 @@ class Header extends Component {
     onChangeCurrency(e) {
         const { checkedCurrency, disabledCurrency } = this.state;
 
-        if (checkedCurrency === "$") {
+        if (checkedCurrency === "USD") {
             this.setState({
-                checkedCurrency: "€",
-                disabledCurrency: "$",
+                checkedCurrency: "EURO",
+                disabledCurrency: "USD",
                 currencyFieldOpen: false
             })
         } else {
             this.setState({
-                checkedCurrency: "$",
-                disabledCurrency: "€",
+                checkedCurrency: "USD",
+                disabledCurrency: "EURO",
                 currencyFieldOpen: false
             })
         }
@@ -112,14 +112,14 @@ class Header extends Component {
             return
         }
 
-        let amountInEuro, amountInUSD;
+        let amountInEURO, amountInUSD;
 
-        if (checkedTransaction === "$") {
+        if (checkedCurrency === "USD") {
             amountInUSD = amount;
-            amountInEuro = amount * 1.114;
+            amountInEURO = amount / 1.114;
         } else {
-            amountInEuro = amount;
-            amountInUSD = amount / 1.114;
+            amountInEURO = amount;
+            amountInUSD = amount * 1.114;
         }
 
         this.props.addTransaction({
@@ -127,8 +127,10 @@ class Header extends Component {
             description,
             checkedCurrency,
             checkedTransaction,
-            amountInEuro,
-            amountInUSD
+            amountIn: {
+                USD: amountInUSD,
+                EURO: amountInEURO
+            }
         })
 
         // this.setState({
@@ -158,6 +160,10 @@ class Header extends Component {
         })
 
         const { checkedTransaction, disabledTransaction,checkedCurrency, disabledCurrency } = this.state;
+        const currencySymbol = {
+            EURO: "€",
+            USD: "$"
+        }
 
         return (
             <div className="header">
@@ -172,10 +178,10 @@ class Header extends Component {
                     </div>
 
                     <div className="fields__currency field" onClick={this.onOpenCurrencyField}>
-                        <div className="fields__currency-usd">{checkedCurrency}</div>
+                        <div className="fields__currency-usd">{currencySymbol[checkedCurrency]}</div>
                         <div
                             className={euroClassName}
-                            onClick={this.onChangeCurrency}>{disabledCurrency}</div>
+                            onClick={this.onChangeCurrency}>{currencySymbol[disabledCurrency]}</div>
                         <div className="fields__type-toggle" />
                     </div>
 

@@ -9,8 +9,8 @@ class TransactionsList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            displayCurrency: '$',
-            disabledCurrency: '€',
+            displayCurrency: 'USD',
+            disabledCurrency: 'EURO',
             currencyFieldOpen: false,
             exchangeRates: 1.114,
             inValidAmount: false,
@@ -38,16 +38,16 @@ class TransactionsList extends Component {
     onChangeCurrency(e) {
       const { displayCurrency, disabledCurrency } = this.state;
 
-      if (displayCurrency === "$") {
+      if (displayCurrency === "USD") {
           this.setState({
-              displayCurrency: "€",
-              disabledCurrency: "$",
+              displayCurrency: "EURO",
+              disabledCurrency: "USD",
               currencyFieldOpen: false
           })
       } else {
           this.setState({
-              displayCurrency: "$",
-              disabledCurrency: "€",
+              displayCurrency: "USD",
+              disabledCurrency: "EURO",
               currencyFieldOpen: false
           })
       }
@@ -74,6 +74,27 @@ class TransactionsList extends Component {
         return date.toLocaleString("en-us", options)
     }
 
+    @bind
+    calculateTOtalAmount() {
+        const {transactions} = this.props;
+        const {displayCurrency} = this.state;
+
+        const summa = transactions.reduce((acc, item) => {
+            if (item.type === 'income') {
+                return acc + item.amountIn[displayCurrency]
+            } else {
+
+                return acc - item.amountIn[displayCurrency]
+            }
+        },0 );
+
+        let moduleSumma = Math.abs(summa);
+
+        return {
+            total: Math.round(moduleSumma * 100) / 100,
+            positive: summa > 0
+        };
+    }
 
 
     render() {
@@ -86,8 +107,16 @@ class TransactionsList extends Component {
             "open": currencyFieldOpen
         })
 
-        const euroSymbol = "€";
-        const usdSymbol = "$";
+        const currencySymbol = {
+            EURO: "€",
+            USD: "$"
+        }
+        const {total, positive} = this.calculateTOtalAmount();
+
+        const summaClassName = cn({
+            'block__balance-value': true,
+            "positive": positive
+        })
 
         return (
             <div className='transactions'>
@@ -95,14 +124,14 @@ class TransactionsList extends Component {
                     <div className="displayAmounts-desc">Display amounts in</div>
 
                     <div className="displayAmounts__currency field" onClick={this.onOpenCurrencyField}>
-                        <div className="fields__currency-usd">{displayCurrency}</div>
+                        <div className="fields__currency-USD">{currencySymbol[displayCurrency]}</div>
                         <div
                             className={euroClassName}
-                            onClick={this.onChangeCurrency}>{disabledCurrency}</div>
+                            onClick={this.onChangeCurrency}>{currencySymbol[disabledCurrency]}</div>
                         <div className="fields__type-toggle" />
                     </div>
 
-                    <div className="displayAmounts-to"><span>€</span> <span className="arrow">→</span><span>$</span></div>
+                    <div className="displayAmounts-to">{currencySymbol.EURO} <span className="arrow">→</span>{currencySymbol.USD}</div>
                     <input
                         className="displayAmounts-exchange"
                         value={exchangeRates}
@@ -110,49 +139,56 @@ class TransactionsList extends Component {
                         step=""
                         onChange={this.onChangeRates}/>
                 </div>
-                {transactions.map(({
-                    amount,
-                    currency,
-                    date,
-                    description,
-                    id,
-                    type
-                }) => {
-                    return <div className="block" key={id}>
-                        <div className="block__arrow">
-                            <div className={type === "income"
-                                ? "block__arrow-up"
-                                : "block__arrow-down"} />
-                        </div>
+                <div className="transactions__list">
+                    {transactions.map(({
+                        amount,
+                        currency,
+                        date,
+                        description,
+                        id,
+                        type,
+                        amountIn
+                    }) => {
+                        return <div className="block" key={id}>
+                            <div className="block__arrow">
+                                <div className={type === "income"
+                                    ? "block__arrow-up"
+                                    : "block__arrow-down"} />
+                            </div>
 
-                        <div className="block__about">
-                            <div className="block__about-desc">{description}</div>
-                            <div className="block__about-date">{this.formateDate(new Date())}</div>
-                        </div>
+                            <div className="block__about">
+                                <div className="block__about-desc">{description}</div>
+                                <div className="block__about-date">{this.formateDate(new Date())}</div>
+                            </div>
 
-                        {type === 'expense'
-                            ?   <div className="block__income">
-                                    <div className="block__expanse-converted"> {displayCurrency} {amount}</div>
-                                    <div className="block__expanse-nonConverted">{currency} {amount}</div>
-                                </div>
-                            : <div className="block__income">
+                            {type === 'expense'
+                                ?   <div className="block__expense">
+                                        <div className="block__expanse-converted"> {currencySymbol[displayCurrency]} {amountIn[displayCurrency]}</div>
+                                        <div className="block__expanse-nonConverted">{currencySymbol[currency]} {amount}</div>
+                                    </div>
+                                : <div className="block__expense block__empty">
+                                        --
+                                    </div>}
+
+                            {type === 'income'
+                                ?    <div className="block__income">
+                                        <div className="block__income-converted">{currencySymbol[displayCurrency]} {amountIn[displayCurrency]}</div>
+                                        <div className="block__income-nonConverted">{currencySymbol[currency]} {amount}</div>
+                                    </div>
+
+                                : <div className="block__income block__empty">
                                     --
                                 </div>}
-
-                        {type === 'income'
-                            ?    <div className="block__income">
-                                    <div className="block__income-converted">{displayCurrency} {amount}</div>
-                                    <div className="block__income-nonConverted">{currency} {amount}</div>
-                                </div>
-
-                            : <div className="block__income">
-                                --
-                            </div>}
-                        <div className="block__remove" onClick={this.removeTransaction.bind(this, id)}>
-                            <img className="block__remove-image"  src={closeImg} />
+                            <div className="block__remove" onClick={this.removeTransaction.bind(this, id)}>
+                                <img className="block__remove-image"  src={closeImg} />
+                            </div>
                         </div>
-                    </div>
-                })}
+                    })}
+                </div>
+                <div className="block__balance">
+                    <div className="block__balance-text">Balance</div>
+                    <div className={summaClassName}>{total}</div>
+                </div>
             </div>
         )
     }

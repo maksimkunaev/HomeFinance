@@ -6,17 +6,28 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    addTransaction: transaction => {
+    addTransaction: ({
+        checkedTransaction,
+        checkedCurrency,
+        amount,
+        description,
+        amountIn: {
+            USD,
+            EURO
+        }
+    }) => {
         dispatch({
             type: 'add',
-            transactionType: transaction.checkedTransaction,
-            currency: transaction.checkedCurrency,
-            amount: transaction.amount,
-            description: transaction.description,
+            transactionType: checkedTransaction,
+            currency: checkedCurrency,
+            amount: amount,
+            description: description,
             date: Date.now(),
             id: Date.now(),
-            amountInUSD: transaction.amountInUSD,
-            amountInEuro: transaction.amountInEuro
+            amountIn: {
+                USD: Math.round(USD * 100) / 100,
+                EURO: Math.round(EURO * 100) / 100
+            }
         })
     },
     removeTransaction: id => {
@@ -24,8 +35,7 @@ const mapDispatchToProps = dispatch => ({
             type: 'remove',
             id: id
         })
-    },
-
+    }
 })
 
 export default component => connect(mapStateToProps, mapDispatchToProps)(component);

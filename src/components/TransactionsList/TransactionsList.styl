@@ -104,10 +104,15 @@
     display flex
     flex-direction column
     justify-content center
+    // align-items flex-end
     align-items center
 
 .block__income
-    flex-basis 120px
+    flex-basis 150px
+
+.block__expense
+    @extend .block__income
+
 .block__remove
     flex-basis 90px
     display: flex;
@@ -117,3 +122,30 @@
 .block__remove-image
     width 35px
     height auto
+
+.block__empty
+    // align-items center
+
+.block__balance
+    display flex
+    justify-content space-between
+    align-items center
+    margin 17px 0
+    font-size 34px
+    text-align right
+
+.block__balance-text
+    flex-basis 600px
+    margin-right 60px
+
+.block__balance-value
+    flex-basis 150px
+    text-align center
+    margin-right 245px
+    color #ba3438
+
+.positive
+    @extend .block__balance-value
+    margin-right 95px
+    color #000
+

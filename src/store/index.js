@@ -15,8 +15,10 @@ function updateTransactions(state = initialState.transactions, action) {
                 description: action.description,
                 date: action.date,
                 id: action.id,
-                amountInUSD: action.amountInUSD,
-                amountInEuro: action.amountInEuro,
+                amountIn: {
+                    USD: action.amountIn.USD,
+                    EURO: action.amountIn.EURO
+                }
             }];
 
         case 'remove':
