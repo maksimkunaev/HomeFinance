@@ -19,14 +19,9 @@ firebase.initializeApp(config);
 
 const debRef = firebase.database().ref('transactions');
 
-const getAllFromRemoteDb = (options) => {
-    const remotePath = `transactions`;
-
-    return firebase.database().ref(remotePath).on('value', data => {
-        const list = data.val();
-        const arrayList = Object.values(list)
-        console.log(`list`, arrayList)
-    });
+const normalizeList = list => {
+    const arrayList = Object.values(list)
+    return arrayList.sort((a, b) => b.date - a.date)
 }
 
 const addToRemoteDb = (options) => {
@@ -63,7 +58,7 @@ const mapDispatchToProps = dispatch => ({
             amount: amount,
             description: description,
             date: Date.now(),
-            id: Date.now(),
+            id: Date.now() + Math.round(Math.random() * 1000),
             amountIn: {
                 USD: Math.round(USD * 100) / 100,
                 EURO: Math.round(EURO * 100) / 100
@@ -79,10 +74,20 @@ const mapDispatchToProps = dispatch => ({
             id: id
         })
     },
-    getAllFromRemoteDb: getAllFromRemoteDb
+    getAllFromRemoteDb: () => {
+        const remotePath = `/transactions/`;
+
+        firebase.database().ref(remotePath).once('value', snap => {
+            const data = snap.val() || [];
+            const list = normalizeList(data);
+
+            dispatch({
+                type: 'updateAll',
+                list
+            })
+        });
+    }
 })
-
-
 
 
 export default component => connect(mapStateToProps, mapDispatchToProps)(component);

@@ -1,13 +1,15 @@
-import { combineReducers } from 'redux';
+import {
+    combineReducers
+} from 'redux';
 
 const initialState = {
     transactions: []
 }
 
 function updateTransactions(state = initialState.transactions, action) {
-    switch (action.type){
+    console.log(`action`, action.type)
+    switch (action.type) {
         case 'add':
-            console.log(`action`, action)
             return [...state, {
                 type: action.transactionType,
                 currency: action.currency,
@@ -20,6 +22,9 @@ function updateTransactions(state = initialState.transactions, action) {
                     EURO: action.amountIn.EURO
                 }
             }];
+
+        case 'updateAll':
+            return action.list;
 
         case 'remove':
             return state.filter(item => item.id !== action.id)

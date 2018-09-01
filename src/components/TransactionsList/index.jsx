@@ -20,16 +20,15 @@ class TransactionsList extends Component {
     }
 
     componentDidMount() {
-        const props = this.props;
-        console.log(props.getAllFromRemoteDb())
+        this.props.getAllFromRemoteDb();
     }
 
-    getAllFromRemoteDb() {
-        const {getAllFromRemoteDb} = this.props;
-        const fullList = getAllFromRemoteDb();
-        console.log(fullList)
+    // getAllFromRemoteDb() {
+    //     const {getAllFromRemoteDb} = this.props;
+    //     const fullList = getAllFromRemoteDb();
+    //     console.log(fullList)
 
-    }
+    // }
 
 
     @bind
