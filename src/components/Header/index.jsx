@@ -23,7 +23,6 @@ class Header extends Component {
 
     @bind
     onOpenTypeField() {
-
         this.setState({
             typeFieldOpen: !this.state.typeFieldOpen
         })
@@ -31,7 +30,6 @@ class Header extends Component {
 
     @bind
     onOpenCurrencyField() {
-
         this.setState({
             currencyFieldOpen: !this.state.currencyFieldOpen
         })
@@ -132,10 +130,6 @@ class Header extends Component {
                 EURO: amountInEURO
             }
         })
-
-        // this.setState({
-        //     currencyFieldOpen: !this.state.currencyFieldOpen
-        // })
     }
 
     render() {

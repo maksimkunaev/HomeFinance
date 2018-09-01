@@ -4,7 +4,6 @@ const initialState = {
     transactions: []
 }
 
-
 function updateTransactions(state = initialState.transactions, action) {
     switch (action.type){
         case 'add':
@@ -26,7 +25,6 @@ function updateTransactions(state = initialState.transactions, action) {
     }
     return state;
 }
-
 
 export default combineReducers({
     transactions: updateTransactions
