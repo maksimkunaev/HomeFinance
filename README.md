@@ -1,3 +1,4 @@
-# react_spa_example
+Home finance record list
 
-Basic files and config structure for react-SPA
+To start:
+``npm run dev``
