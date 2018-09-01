@@ -23,6 +23,7 @@ class Header extends Component {
 
     @bind
     onOpenTypeField() {
+
         this.setState({
             typeFieldOpen: !this.state.typeFieldOpen
         })

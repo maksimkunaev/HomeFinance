@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import firebase from "firebase";
 
 const config = {
@@ -89,6 +89,5 @@ const mapDispatchToProps = dispatch => ({
         });
     }
 })
-
 
 export default component => connect(mapStateToProps, mapDispatchToProps)(component);

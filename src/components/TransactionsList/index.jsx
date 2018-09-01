@@ -33,7 +33,6 @@ class TransactionsList extends Component {
         const {removeTransaction} = this.props;
 
         removeTransaction(id)
-
     }
 
     @bind
@@ -141,23 +140,18 @@ class TransactionsList extends Component {
         </div>
     }
 
-
     render() {
         const { displayCurrency,disabledCurrency, currencyFieldOpen, exchangeRates} = this.state;
-
         const {transactions, loading} = this.props;
-
         const currencySymbol = {
             EURO: "€",
             USD: "$"
         }
         const {total, positive} = this.calculateTOtalAmount();
-
         const summaClassName = cn({
             'block__balance-value': true,
             "positive": positive
         })
-
         const topBlock = this.renderTopBlock();
 
         return (
