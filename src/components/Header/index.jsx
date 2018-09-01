@@ -93,7 +93,9 @@ class Header extends Component {
     }
 
     @bind
-    addTransaction() {
+    addTransaction(e) {
+        e.preventDefault();
+
         const {amount, description, checkedCurrency, checkedTransaction} = this.state;
 
         if (!amount) {
@@ -130,6 +132,11 @@ class Header extends Component {
                 EURO: amountInEURO
             }
         })
+
+        this.setState({
+            amount: "",
+            description: ""
+        })
     }
 
     render() {
@@ -162,7 +169,7 @@ class Header extends Component {
         return (
             <div className="header">
                 <div className="title">Home Finance</div>
-                <div className="fields">
+                <form className="fields">
                     <div className="fields__type field" onClick={this.onOpenTypeField}>
                         <div className="fields__type-expense">{checkedTransaction}</div>
                         <div
@@ -192,8 +199,8 @@ class Header extends Component {
                         placeholder="DECSRIPTION"
                         value={this.state.description}
                         onChange={this.onChangeDescription}/>
-                    <button className="fields__add field" onClick={this.addTransaction}>Add</button>
-                </div>
+                    <button type="submit" className="fields__add field" onClick={this.addTransaction}>Add</button>
+                </form>
             </div>
         )
     }
