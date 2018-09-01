@@ -216,7 +216,7 @@ class TransactionsList extends Component {
 
                 {transactions.length > 0 && <div className="block__balance">
                     <div className="block__balance-text">Balance</div>
-                    <div className={summaClassName}>{total}</div>
+                    <div className={summaClassName}>{currencySymbol[displayCurrency]} {total}</div>
                 </div> }
 
             </div>
