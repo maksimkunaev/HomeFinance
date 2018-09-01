@@ -41,10 +41,16 @@
 
 .displayAmounts__currency
     width 60px
-    position relative
+    height 35px
     position relative
     line-height 30px
     cursor pointer
+
+    border 1px solid #a9a9a9
+    border-radius 6px
+    padding 0 8px
+    box-sizing border-box
+    outline none
 
 .displayAmounts-currency
     display none
@@ -160,4 +166,70 @@
     font-style italic
     font-weight 100
     color #5c5c5c
+
+@media screen and (max-width: 1100px)
+    .displayAmounts
+        right 50%
+        transform translateX(50%)
+    .block__empty
+        flex-basis 90px
+    .block__remove
+        flex-basis 20px
+    .block__income
+        flex-basis 90px
+    .block__expense
+        flex-basis 90px
+    .block__about
+        flex-basis 130px
+        display flex
+        flex-direction column
+        justify-content center
+
+    .block__arrow
+        flex-basis 55px
+    .block__about-desc
+        font-size 17px
+        text-align center
+    .block__about-date
+        font-size 12px
+        text-align center
+    .block__income,
+    .block__expense
+        font-size 15px
+    .block__remove-image
+        width 27px
+    .block__arrow-up
+    .block__arrow-down
+        width 21px
+        height 21px
+        top 19px
+    .block__arrow-up
+        top 34px
+    .block__arrow-up::after
+        border 21px solid transparent
+        border-bottom 20px solid #88b749
+        display block
+        bottom 21px
+        left 50%
+        position absolute
+        transform translate(-50%)
+    .block__arrow-down::after
+        content: "";
+        border: 19px solid transparent;
+        border-top: 20px solid #f09482;
+        display: block;
+        bottom: -39px;
+        left: 50%;
+        position: absolute;
+        transform: translate(-50%);
+    .block__balance-text
+        flex-basis 280px
+    .block__balance
+        font-size 18px
+    .block__balance-value
+        margin-right 135px
+    .positive
+        margin-right 30px
+
+
 

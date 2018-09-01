@@ -122,7 +122,7 @@ class TransactionsList extends Component {
         return <div className="displayAmounts">
             <div className="displayAmounts-desc">Display amounts in</div>
 
-            <div className="displayAmounts__currency field" onClick={this.onOpenCurrencyField}>
+            <div className="displayAmounts__currency" onClick={this.onOpenCurrencyField}>
                 <div className="fields__currency-USD">{currencySymbol[displayCurrency]}</div>
                 <div
                     className={euroClassName}
