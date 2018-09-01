@@ -20,16 +20,13 @@ class TransactionsList extends Component {
     }
 
     componentDidMount() {
-        this.props.getAllFromRemoteDb();
+        this.getInitialRemote();
     }
 
-    // getAllFromRemoteDb() {
-    //     const {getAllFromRemoteDb} = this.props;
-    //     const fullList = getAllFromRemoteDb();
-    //     console.log(fullList)
-
-    // }
-
+    @bind
+    getInitialRemote() {
+        this.props.getAllFromRemoteDb();
+    }
 
     @bind
     removeTransaction(id){
@@ -92,7 +89,7 @@ class TransactionsList extends Component {
         const {displayCurrency} = this.state;
 
         const summa = transactions.reduce((acc, item) => {
-            if (item.type === 'income') {
+            if (item.transactionType === 'income') {
                 return acc + item.amountIn[displayCurrency]
             } else {
 
@@ -148,7 +145,7 @@ class TransactionsList extends Component {
     render() {
         const { displayCurrency,disabledCurrency, currencyFieldOpen, exchangeRates} = this.state;
 
-        const {transactions} = this.props;
+        const {transactions, loading} = this.props;
 
         const currencySymbol = {
             EURO: "€",
@@ -166,7 +163,8 @@ class TransactionsList extends Component {
         return (
             <div className='transactions'>
                 {transactions.length ? topBlock : null}
-                {!transactions.length && <div className='transactions__addSome'>Add Some Financial Records</div>}
+                {!loading && !transactions.length && <div className='transactions__addSome'>Add Some Financial Records</div>}
+                {loading && <div className='transactions__addSome'>Loading...</div>}
 
                 <div className="transactions__list">
                     {transactions.map(({
@@ -175,12 +173,13 @@ class TransactionsList extends Component {
                         date,
                         description,
                         id,
-                        type,
-                        amountIn
+                        transactionType,
+                        amountIn,
+
                     }) => {
                         return <div className="block" key={id}>
                             <div className="block__arrow">
-                                <div className={type === "income"
+                                <div className={transactionType === "income"
                                     ? "block__arrow-up"
                                     : "block__arrow-down"} />
                             </div>
@@ -190,7 +189,7 @@ class TransactionsList extends Component {
                                 <div className="block__about-date">{this.formateDate(new Date())}</div>
                             </div>
 
-                            {type === 'expense'
+                            {transactionType === 'expense'
                                 ?   <div className="block__expense">
                                         <div className="block__expanse-converted"> {currencySymbol[displayCurrency]} {amountIn[displayCurrency]}</div>
                                         <div className="block__expanse-nonConverted">{currencySymbol[currency]} {amount}</div>
@@ -199,7 +198,7 @@ class TransactionsList extends Component {
                                         --
                                     </div>}
 
-                            {type === 'income'
+                            {transactionType === 'income'
                                 ?    <div className="block__income">
                                         <div className="block__income-converted">{currencySymbol[displayCurrency]} {amountIn[displayCurrency]}</div>
                                         <div className="block__income-nonConverted">{currencySymbol[currency]} {amount}</div>

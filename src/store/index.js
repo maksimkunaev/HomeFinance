@@ -3,15 +3,15 @@ import {
 } from 'redux';
 
 const initialState = {
-    transactions: []
+    transactions: [],
+    loading: true
 }
 
 function updateTransactions(state = initialState.transactions, action) {
-    console.log(`action`, action.type)
     switch (action.type) {
         case 'add':
-            return [...state, {
-                type: action.transactionType,
+            return [{
+                transactionType: action.transactionType,
                 currency: action.currency,
                 amount: action.amount,
                 description: action.description,
@@ -21,7 +21,7 @@ function updateTransactions(state = initialState.transactions, action) {
                     USD: action.amountIn.USD,
                     EURO: action.amountIn.EURO
                 }
-            }];
+            }, ...state];
 
         case 'updateAll':
             return action.list;
@@ -32,6 +32,15 @@ function updateTransactions(state = initialState.transactions, action) {
     return state;
 }
 
+function getLoadingState(state = initialState.loading, action) {
+    switch (action.type) {
+        case 'loaded':
+            return false;
+    }
+    return state;
+}
+
 export default combineReducers({
-    transactions: updateTransactions
+    transactions: updateTransactions,
+    loading: getLoadingState
 })

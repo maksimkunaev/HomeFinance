@@ -1,9 +1,5 @@
-import React, {
-    Component
-} from 'react';
-import {
-    connect
-} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import firebase from "firebase";
 
 const config = {
@@ -17,27 +13,28 @@ const config = {
 
 firebase.initializeApp(config);
 
-const debRef = firebase.database().ref('transactions');
+const remotePath = 'transactions';
+
+const addToRemoteDb = (options) => {
+    const path = `${remotePath}/${options.id}`;
+
+    firebase.database().ref(path).set(options);
+}
+
+const removeFromRemoteDb = (id) => {
+    const path = `${remotePath}/${id}`;
+
+    firebase.database().ref(path).remove();
+}
 
 const normalizeList = list => {
     const arrayList = Object.values(list)
     return arrayList.sort((a, b) => b.date - a.date)
 }
 
-const addToRemoteDb = (options) => {
-    const remotePath = `transactions/${options.id}`;
-
-    firebase.database().ref(remotePath).set(options);
-}
-
-const removeFromRemoteDb = (id) => {
-    const remotePath = `transactions/${id}`;
-
-    firebase.database().ref(remotePath).remove();
-}
-
 const mapStateToProps = state => ({
-    transactions: state.transactions
+    transactions: state.transactions,
+    loading: state.loading
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -75,7 +72,6 @@ const mapDispatchToProps = dispatch => ({
         })
     },
     getAllFromRemoteDb: () => {
-        const remotePath = `/transactions/`;
 
         firebase.database().ref(remotePath).once('value', snap => {
             const data = snap.val() || [];
@@ -83,6 +79,11 @@ const mapDispatchToProps = dispatch => ({
 
             dispatch({
                 type: 'updateAll',
+                list
+            })
+
+            dispatch({
+                type: 'loaded',
                 list
             })
         });
