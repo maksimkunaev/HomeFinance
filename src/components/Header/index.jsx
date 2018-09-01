@@ -95,8 +95,6 @@ class Header extends Component {
     @bind
     addTransaction() {
         const {amount, description, checkedCurrency, checkedTransaction} = this.state;
-        const {transactions} = this.props;
-        const index = transactions.length;
 
         if (!amount) {
             this.setState({
@@ -130,8 +128,7 @@ class Header extends Component {
             amountIn: {
                 USD: amountInUSD,
                 EURO: amountInEURO
-            },
-            index
+            }
         })
     }
 

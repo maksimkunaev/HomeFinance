@@ -1,5 +1,9 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, {
+    Component
+} from 'react';
+import {
+    connect
+} from 'react-redux';
 import firebase from "firebase";
 
 const config = {
@@ -15,58 +19,67 @@ firebase.initializeApp(config);
 
 const debRef = firebase.database().ref('transactions');
 
-const addToRemoteDb = (index, options) => {
-    const remotePath = `transactions/${index}`;
+const getAllFromRemoteDb = (options) => {
+    const remotePath = `transactions`;
+
+    return firebase.database().ref(remotePath).on('value', data => {
+        const list = data.val();
+        const arrayList = Object.values(list)
+        console.log(`list`, arrayList)
+    });
+}
+
+const addToRemoteDb = (options) => {
+    const remotePath = `transactions/${options.id}`;
 
     firebase.database().ref(remotePath).set(options);
 }
 
-const removeFromRemoteDb = (index, options) => {
-    const remotePath = `transactions/${index}`;
+const removeFromRemoteDb = (id) => {
+    const remotePath = `transactions/${id}`;
 
-    firebase.database().ref(remotePath).remove(options);
+    firebase.database().ref(remotePath).remove();
 }
 
 const mapStateToProps = state => ({
-        transactions: state.transactions
+    transactions: state.transactions
 })
 
 const mapDispatchToProps = dispatch => ({
-        addTransaction: ({
-                checkedTransaction,
-                checkedCurrency,
-                amount,
-                description,
-                amountIn: {
-                        USD,
-                        EURO
-                },
-                index
-        }) => {
-            const options = {
-                    type: 'add',
-                    transactionType: checkedTransaction,
-                    currency: checkedCurrency,
-                    amount: amount,
-                    description: description,
-                    date: Date.now(),
-                    id: Date.now(),
-                    amountIn: {
-                            USD: Math.round(USD * 100) / 100,
-                            EURO: Math.round(EURO * 100) / 100
-                    }
-            };
-
-            addToRemoteDb(index, options);
-            dispatch(options)
-        },
-        removeTransaction: id => {
-            removeFromRemoteDb
-            dispatch({
-                    type: 'remove',
-                    id: id
-            })
+    addTransaction: ({
+        checkedTransaction,
+        checkedCurrency,
+        amount,
+        description,
+        amountIn: {
+            USD,
+            EURO
         }
+    }) => {
+        const options = {
+            type: 'add',
+            transactionType: checkedTransaction,
+            currency: checkedCurrency,
+            amount: amount,
+            description: description,
+            date: Date.now(),
+            id: Date.now(),
+            amountIn: {
+                USD: Math.round(USD * 100) / 100,
+                EURO: Math.round(EURO * 100) / 100
+            }
+        };
+        addToRemoteDb(options);
+        dispatch(options)
+    },
+    removeTransaction: (id) => {
+        removeFromRemoteDb(id)
+        dispatch({
+            type: 'remove',
+            id: id
+        })
+    },
+    getAllFromRemoteDb: getAllFromRemoteDb
 })
 
 

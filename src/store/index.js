@@ -7,6 +7,7 @@ const initialState = {
 function updateTransactions(state = initialState.transactions, action) {
     switch (action.type){
         case 'add':
+            console.log(`action`, action)
             return [...state, {
                 type: action.transactionType,
                 currency: action.currency,

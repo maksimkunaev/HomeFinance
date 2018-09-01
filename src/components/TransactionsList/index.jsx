@@ -19,6 +19,19 @@ class TransactionsList extends Component {
         }
     }
 
+    componentDidMount() {
+        const props = this.props;
+        console.log(props.getAllFromRemoteDb())
+    }
+
+    getAllFromRemoteDb() {
+        const {getAllFromRemoteDb} = this.props;
+        const fullList = getAllFromRemoteDb();
+        console.log(fullList)
+
+    }
+
+
     @bind
     removeTransaction(id){
         const {removeTransaction} = this.props;
