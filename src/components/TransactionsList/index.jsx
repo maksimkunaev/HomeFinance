@@ -155,12 +155,12 @@ class TransactionsList extends Component {
         const topBlock = this.renderTopBlock();
 
         return (
-            <div className='transactions'>
+            <main className='transactions'>
                 {transactions.length ? topBlock : null}
                 {!loading && !transactions.length && <div className='transactions__addSome'>Add Some Financial Records</div>}
                 {loading && <div className='transactions__addSome'>Loading...</div>}
 
-                <div className="transactions__list">
+                <ul className="transactions__list">
                     {transactions.map(({
                         amount,
                         currency,
@@ -171,7 +171,7 @@ class TransactionsList extends Component {
                         amountIn,
 
                     }) => {
-                        return <div className="block" key={id}>
+                        return <li className="block" key={id}>
                             <div className="block__arrow">
                                 <div className={transactionType === "income"
                                     ? "block__arrow-up"
@@ -204,16 +204,16 @@ class TransactionsList extends Component {
                             <div className="block__remove" onClick={this.removeTransaction.bind(this, id)}>
                                 <img className="block__remove-image"  src={closeImg} />
                             </div>
-                        </div>
+                        </li>
                     })}
-                </div>
+                </ul>
 
                 {transactions.length > 0 && <div className="block__balance">
                     <div className="block__balance-text">Balance</div>
                     <div className={summaClassName}>{currencySymbol[displayCurrency]} {total}</div>
                 </div> }
 
-            </div>
+            </main>
         )
     }
 }

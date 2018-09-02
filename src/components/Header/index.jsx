@@ -168,8 +168,8 @@ class Header extends Component {
         }
 
         return (
-            <div className="header">
-                <div className="title">Home Finance</div>
+            <header className="header">
+                <h1 className="title">Home Finance</h1>
                 <form className="fields">
                     <div className="fields__type field" onClick={this.onOpenTypeField}>
                         <div className="fields__type-expense">{checkedTransaction}</div>
@@ -202,7 +202,7 @@ class Header extends Component {
                         onChange={this.onChangeDescription}/>
                     <button type="submit" className="fields__add field" onClick={this.addTransaction}>Add</button>
                 </form>
-            </div>
+            </header>
         )
     }
 }

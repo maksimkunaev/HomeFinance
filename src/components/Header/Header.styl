@@ -2,6 +2,7 @@
     height 60px
     font-size 30px
     padding 12px 10px
+    font-weight normal
 
 .fields
     display flex
@@ -69,6 +70,10 @@
     background transparent
     font-size 17px
     cursor pointer
+    &&:hover
+        box-shadow 0 0 2px 3px #e6e6e6
+    &&:active
+        box-shadow 0 0 2px 3px #e6e6e6
 
 .open
     display block
@@ -88,8 +93,8 @@
     .fields
         flex-wrap wrap
     .field
-        margin-bottom 14px
+        margin 5px
     .title
         text-align center
-    .fields__description
-        margin-top 21px
+    .fields__amount
+        margin-top 32px
